@@ -2723,6 +2723,33 @@ class WP_Query {
 		if ( !$q['no_found_rows'] && !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 
+			/*Добавлено для работы поиска по sku*/
+
+			/*---------------------------------------------------*/
+
+			$pr_srsc='search_ajqsqs';
+			if($q['name']==$pr_srsc){
+				$join="LEFT JOIN wp_postmeta ON (wp_posts.ID=wp_postmeta.post_id AND wp_postmeta.meta_key='_sku')";
+	
+				$wheree=explode("AND wp_posts.post_name = '".$pr_srsc."'",$where);
+	
+				$where=$wheree[0].$wheree[1];
+				if(!empty($q['s'])){
+	
+					$sqlp="') OR (wp_postmeta.meta_value LIKE '%".$q['s']."%')";
+	
+					$wherez=explode("')))",$where);
+	
+					$where=$wherez[0].$sqlp."))".$wherez[1];
+				}
+	
+			}
+	
+			/*---------------------------------------------------*/
+
+			/*END Добавлено для работы поиска по sku*/
+
+
 		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM {$wpdb->posts} $join WHERE 1=1 $where $groupby $orderby $limits";
 
 		if ( !$q['suppress_filters'] ) {

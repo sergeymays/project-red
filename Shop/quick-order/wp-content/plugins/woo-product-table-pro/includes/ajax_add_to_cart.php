@@ -53,8 +53,12 @@ function wpt_ajax_paginate_links_load(){
     //$wpt_description_length   = $targetTableArgs['description_length'];
     $description_type           = $targetTableArgs['description_type'];
     $ajax_action                = $targetTableArgs['ajax_action'];
-    
-    
+
+    //Добавлено для поиска по sku
+    if(!empty($args['s'])) {
+        $args = array_merge($args, ['name' => 'search_ajqsqs']);
+    }
+
     $table_row_generator_array = array(
         'args'                      => $args,
         'wpt_table_column_keywords' => $table_column_keywords,
@@ -134,7 +138,11 @@ function wpt_ajax_table_row_load(){
     $description_type           = $targetTableArgs['description_type'];
     $ajax_action                = $targetTableArgs['ajax_action'];
     
-    
+    //Добавлено для поиска по sku
+    if(!empty($args['s'])) {
+        $args = array_merge($args, ['name' => 'search_ajqsqs']);
+    }
+
     $table_row_generator_array = array(
         'args'                      => $args,
         'wpt_table_column_keywords' => $table_column_keywords,
@@ -190,8 +198,8 @@ function wpt_ajax_add_to_cart() {
         $cart_item_data['unique_key'] = md5( $product_id . $string_for_var . '_' .$custom_message );//md5( microtime().rand() ); //
     }
     /**
-    else{
-       $cart_item_data['unique_key'] = md5( $product_id . $string_for_var );
+     else{
+       $cart_item_data['unique_key'] = md5( $product_id . $string_for_var ) ; 
     }
      */
     
